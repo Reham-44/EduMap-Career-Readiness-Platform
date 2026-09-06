@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import logoUrl from '@/Public/edumap-logo.png';
 
 export function Logo({ className = '', showText = true }: { className?: string; showText?: boolean }) {
   const [imageFailed, setImageFailed] = useState(false);
@@ -12,7 +13,7 @@ export function Logo({ className = '', showText = true }: { className?: string; 
         </div>
       ) : (
         <img
-          src="/edumap-logo.png"
+          src={logoUrl}
           alt="EduMap"
           onError={() => setImageFailed(true)}
           className="w-10 h-10 object-contain"
