@@ -20,40 +20,44 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <header className="sticky top-0 z-40 bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between min-h-[4.5rem] gap-6">
           <Logo />
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center justify-center gap-1 flex-1">
             {localizedLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary-600 hover:bg-primary-50/50 rounded-lg transition-colors"
+                className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary-600 hover:bg-primary-50/50 rounded-lg transition-colors whitespace-nowrap"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-3">
-            <button onClick={toggleTheme} className="btn-ghost px-3" aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}>
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
+            <button
+              onClick={toggleTheme}
+              className="btn-ghost px-2.5"
+              aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+              title={theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+            >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              {theme === 'dark' ? t.common.lightMode : t.common.darkMode}
             </button>
-            <button onClick={toggleLang} className="btn-ghost px-3" aria-label={t.common.switchLanguage}>
+            <button onClick={toggleLang} className="btn-ghost px-2.5" aria-label={t.common.switchLanguage}>
               <Languages className="w-4 h-4" />
               {lang === 'ar' ? 'English' : 'العربية'}
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="btn-ghost"
+              className="btn-ghost px-2.5"
             >
               <LogIn className="w-4 h-4" />
               {t.nav.login}
             </button>
-            <button onClick={() => navigate('/signup')} className="btn-primary">
+            <button onClick={() => navigate('/signup')} className="btn-primary px-5">
               <UserPlus className="w-4 h-4" />
               {t.nav.getStarted}
             </button>
@@ -83,8 +87,13 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-              <button onClick={toggleTheme} className="btn-ghost w-full" aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}>
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />} {theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+              <button
+                onClick={toggleTheme}
+                className="btn-ghost w-full"
+                aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+                title={theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </button>
               <button onClick={toggleLang} className="btn-ghost w-full">
                 <Languages className="w-4 h-4" /> {lang === 'ar' ? 'English' : 'العربية'}

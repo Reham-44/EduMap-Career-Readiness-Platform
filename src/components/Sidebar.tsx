@@ -99,9 +99,13 @@ export function Sidebar() {
             <p className="text-xs text-slate-400 truncate">{isCompany ? t.sidebar.companyAccount : user?.email}</p>
           </div>
         </div>
-        <button onClick={toggleTheme} className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors" aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}>
+        <button
+          onClick={toggleTheme}
+          className="flex items-center justify-center px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
+          aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+          title={theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+        >
           {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          {theme === 'dark' ? t.common.lightMode : t.common.darkMode}
         </button>
         <button onClick={toggleLang} className="flex items-center justify-between px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors" aria-label={t.common.switchLanguage}>
           <span>{lang === 'ar' ? 'English' : 'العربية'}</span>
