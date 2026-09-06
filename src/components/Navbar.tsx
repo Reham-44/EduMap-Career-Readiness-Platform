@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, LogIn, UserPlus, Languages } from 'lucide-react';
+import { Menu, X, LogIn, UserPlus, Languages, Moon, Sun } from 'lucide-react';
 import { Logo } from './Logo';
 import { useLang } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const { lang, toggleLang, t } = useLang();
+  const { theme, toggleTheme } = useTheme();
   const localizedLinks = [
     { label: t.nav.home, to: '/' },
     { label: t.nav.howItWorks, to: '/how-it-works' },
@@ -36,6 +38,10 @@ export function Navbar() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
+            <button onClick={toggleTheme} className="btn-ghost px-3" aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {theme === 'dark' ? 'Light' : 'Dark'}
+            </button>
             <button onClick={toggleLang} className="btn-ghost px-3" aria-label="Switch language">
               <Languages className="w-4 h-4" />
               {lang === 'ar' ? 'English' : 'العربية'}
@@ -77,6 +83,9 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
+              <button onClick={toggleTheme} className="btn-ghost w-full" aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />} {theme === 'dark' ? 'Light' : 'Dark'}
+              </button>
               <button onClick={toggleLang} className="btn-ghost w-full">
                 <Languages className="w-4 h-4" /> {lang === 'ar' ? 'English' : 'العربية'}
               </button>

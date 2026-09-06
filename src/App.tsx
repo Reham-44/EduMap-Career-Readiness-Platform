@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ToastProvider } from '@/contexts/ToastContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 // Public pages
 import { Home } from '@/pages/Home';
@@ -50,6 +51,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ThemeProvider>
         <LanguageProvider>
         <ToastProvider>
           <Routes>
@@ -104,6 +106,7 @@ function App() {
           </Routes>
         </ToastProvider>
         </LanguageProvider>
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -23,6 +23,20 @@
   *::-webkit-scrollbar-thumb {
     @apply bg-slate-300 rounded-full;
   }
+
+  html.dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  /* The project predates Tailwind's dark variants; these keep its existing utility-based
+     design coherent in dark mode without changing individual page layouts. */
+  html.dark [class*="bg-white"] { background-color: rgb(15 23 42) !important; }
+  html.dark [class*="bg-slate-50"] { background-color: rgb(15 23 42) !important; }
+  html.dark [class*="bg-slate-100"] { background-color: rgb(30 41 59) !important; }
+  html.dark [class*="border-slate-"] { border-color: rgb(51 65 85) !important; }
+  html.dark [class*="text-slate-900"], html.dark [class*="text-slate-800"], html.dark [class*="text-slate-700"] { color: rgb(241 245 249) !important; }
+  html.dark [class*="text-slate-600"], html.dark [class*="text-slate-500"], html.dark [class*="text-slate-400"] { color: rgb(203 213 225) !important; }
+  html.dark input, html.dark select, html.dark textarea { background-color: rgb(15 23 42) !important; color: rgb(241 245 249) !important; }
 }
 
 @layer components {

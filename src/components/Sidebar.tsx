@@ -13,9 +13,12 @@ import {
   LogOut,
   Menu,
   X,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import { Logo } from './Logo';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const studentLinks = [
   { label: 'Dashboard', to: '/app/dashboard', icon: LayoutDashboard },
@@ -39,6 +42,7 @@ export function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isCompany = user?.accountType === 'company';
@@ -94,6 +98,10 @@ export function Sidebar() {
             <p className="text-xs text-slate-400 truncate">{isCompany ? 'Company Account' : user?.email}</p>
           </div>
         </div>
+        <button onClick={toggleTheme} className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors" aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+        </button>
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-error-50 hover:text-error-600 transition-colors"
