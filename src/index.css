@@ -28,15 +28,75 @@
     @apply bg-slate-950 text-slate-100;
   }
 
-  /* The project predates Tailwind's dark variants; these keep its existing utility-based
-     design coherent in dark mode without changing individual page layouts. */
-  html.dark [class*="bg-white"] { background-color: rgb(15 23 42) !important; }
-  html.dark [class*="bg-slate-50"] { background-color: rgb(15 23 42) !important; }
-  html.dark [class*="bg-slate-100"] { background-color: rgb(30 41 59) !important; }
-  html.dark [class*="border-slate-"] { border-color: rgb(51 65 85) !important; }
-  html.dark [class*="text-slate-900"], html.dark [class*="text-slate-800"], html.dark [class*="text-slate-700"] { color: rgb(241 245 249) !important; }
-  html.dark [class*="text-slate-600"], html.dark [class*="text-slate-500"], html.dark [class*="text-slate-400"] { color: rgb(203 213 225) !important; }
-  html.dark input, html.dark select, html.dark textarea { background-color: rgb(15 23 42) !important; color: rgb(241 245 249) !important; }
+  /* Keep dark mode readable without rewriting every utility substring globally. */
+  html.dark .card,
+  html.dark .bg-white,
+  html.dark .bg-white\/80 {
+    background-color: rgb(15 23 42) !important;
+  }
+  html.dark .bg-slate-50 { background-color: rgb(15 23 42) !important; }
+  html.dark .bg-slate-100 { background-color: rgb(30 41 59) !important; }
+  html.dark .bg-primary-50 { background-color: rgb(49 46 129 / 0.35) !important; }
+  html.dark .bg-primary-50\/50 { background-color: rgb(49 46 129 / 0.25) !important; }
+  html.dark .bg-primary-100 { background-color: rgb(55 48 163 / 0.45) !important; }
+  html.dark .bg-secondary-50 { background-color: rgb(8 145 178 / 0.2) !important; }
+  html.dark .bg-secondary-100 { background-color: rgb(14 116 144 / 0.35) !important; }
+  html.dark .bg-success-50 { background-color: rgb(22 101 52 / 0.25) !important; }
+  html.dark .bg-success-50\/50 { background-color: rgb(22 101 52 / 0.2) !important; }
+  html.dark .bg-success-100 { background-color: rgb(22 101 52 / 0.4) !important; }
+  html.dark .bg-warning-50 { background-color: rgb(120 53 15 / 0.3) !important; }
+  html.dark .bg-warning-50\/50 { background-color: rgb(120 53 15 / 0.25) !important; }
+  html.dark .bg-warning-100 { background-color: rgb(120 53 15 / 0.45) !important; }
+  html.dark .bg-error-50 { background-color: rgb(127 29 29 / 0.3) !important; }
+  html.dark .bg-error-100 { background-color: rgb(127 29 29 / 0.45) !important; }
+  html.dark .via-white { --tw-gradient-via: rgb(15 23 42) !important; }
+  html.dark .to-white { --tw-gradient-to: rgb(15 23 42) !important; }
+  html.dark .from-white { --tw-gradient-from: rgb(15 23 42) !important; }
+  html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+  html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) { border-color: rgb(51 65 85) !important; }
+  html.dark .border-slate-100,
+  html.dark .border-slate-200,
+  html.dark .border-slate-200\/80 { border-color: rgb(51 65 85) !important; }
+  html.dark .border-primary-100,
+  html.dark .border-primary-200,
+  html.dark .border-secondary-100,
+  html.dark .border-secondary-200,
+  html.dark .border-success-100,
+  html.dark .border-success-200,
+  html.dark .border-warning-100,
+  html.dark .border-warning-200,
+  html.dark .border-error-100,
+  html.dark .border-error-200 { border-color: rgb(71 85 105) !important; }
+  html.dark .text-slate-900,
+  html.dark .text-slate-800,
+  html.dark .text-slate-700 { color: rgb(241 245 249) !important; }
+  html.dark .text-slate-600,
+  html.dark .text-slate-500,
+  html.dark .text-slate-400 { color: rgb(203 213 225) !important; }
+  html.dark .hover\:bg-slate-50:hover { background-color: rgb(30 41 59) !important; }
+  html.dark .hover\:bg-slate-100:hover { background-color: rgb(30 41 59) !important; }
+  html.dark .hover\:bg-primary-50:hover { background-color: rgb(49 46 129 / 0.45) !important; }
+  html.dark .hover\:bg-primary-50\/50:hover { background-color: rgb(49 46 129 / 0.35) !important; }
+  html.dark .btn-secondary {
+    background-color: rgb(30 41 59) !important;
+    color: rgb(241 245 249) !important;
+    border-color: rgb(71 85 105) !important;
+  }
+  html.dark .btn-ghost { color: rgb(203 213 225) !important; }
+  html.dark input,
+  html.dark select,
+  html.dark textarea {
+    background-color: rgb(15 23 42) !important;
+    color: rgb(241 245 249) !important;
+    border-color: rgb(71 85 105) !important;
+  }
+  html.dark input::placeholder,
+  html.dark textarea::placeholder { color: rgb(148 163 184) !important; }
+  html.dark .bg-slate-900 { background-color: rgb(2 6 23) !important; }
+  html.dark .text-slate-300 { color: rgb(226 232 240) !important; }
+  html.dark .shadow-sm,
+  html.dark .shadow-lg,
+  html.dark .shadow-xl { --tw-shadow-color: rgb(2 6 23 / 0.45); }
 }
 
 @layer components {

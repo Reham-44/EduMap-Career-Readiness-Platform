@@ -90,15 +90,18 @@ export function CandidateDetails() {
         <div className="card p-6">
           <h3 className="font-bold text-slate-900 mb-4">{t.company.skills}</h3>
           <div className="space-y-3">
-            {candidate.skills.map((skill) => (
+            {candidate.skills.map((skill, skillIndex) => {
+              const skillScore = getStableSkillScore(candidate.score, skillIndex);
+              return (
               <div key={skill}>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-slate-700">{skill}</span>
-                  <span className="text-slate-500">{Math.floor(Math.random() * 20) + 75}%</span>
+                  <span className="text-slate-500">{skillScore}%</span>
                 </div>
-                <ProgressBar value={Math.floor(Math.random() * 20) + 75} size="sm" />
+                <ProgressBar value={skillScore} size="sm" />
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -132,4 +135,8 @@ export function CandidateDetails() {
       </div>
     </AppLayout>
   );
+}
+
+function getStableSkillScore(candidateScore: number, skillIndex: number): number {
+  return Math.min(98, Math.max(75, candidateScore - 2 + ((skillIndex * 3) % 8)));
 }
