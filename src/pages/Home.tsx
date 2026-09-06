@@ -29,11 +29,11 @@ export function Home() {
   const solutionSteps = t.home.solutionSteps.map((step, index) => ({ ...step, icon: solutionIcons[index] }));
   const howItWorksSteps = t.home.howItWorksSteps;
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="home-page min-h-screen bg-slate-50">
       <Navbar />
 
       {/* HERO */}
-      <section className="relative overflow-hidden">
+      <section className="home-hero relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-secondary-50" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-200/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary-200/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
@@ -91,7 +91,7 @@ export function Home() {
       </section>
 
       {/* PROBLEM SECTION */}
-      <section className="py-16 lg:py-20 bg-white">
+      <section className="home-section home-section-light py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
@@ -119,7 +119,7 @@ export function Home() {
       </section>
 
       {/* SOLUTION SECTION */}
-      <section className="py-16 lg:py-20 bg-slate-50">
+      <section className="home-section home-section-muted py-16 lg:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
@@ -146,7 +146,7 @@ export function Home() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-16 lg:py-20 bg-white">
+      <section className="home-section home-section-light py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.home.howItWorksTitle}</h2>
@@ -172,7 +172,7 @@ export function Home() {
       </section>
 
       {/* TARGET USERS */}
-      <section className="py-16 lg:py-20 bg-slate-50">
+      <section className="home-section home-section-muted py-16 lg:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.home.targetUsersTitle}</h2>
@@ -226,7 +226,7 @@ export function Home() {
       </section>
 
       {/* USP SECTION */}
-      <section className="py-16 lg:py-20 bg-white">
+      <section className="home-section home-section-light py-16 lg:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mx-auto mb-6 shadow-sm">
             <Sparkles className="w-8 h-8" />
@@ -238,7 +238,7 @@ export function Home() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 lg:py-20 bg-slate-50">
+      <section className="home-section home-section-muted py-16 lg:py-20 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="card p-10 lg:p-16 text-center bg-gradient-to-br from-primary-600 to-secondary-600 border-0">
             <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight">

@@ -97,6 +97,14 @@
   html.dark .shadow-sm,
   html.dark .shadow-lg,
   html.dark .shadow-xl { --tw-shadow-color: rgb(2 6 23 / 0.45); }
+
+  /* Home has large decorative gradients that need an explicit dark surface. */
+  html.dark .home-hero { background-color: rgb(2 6 23); }
+  html.dark .home-hero > .bg-gradient-to-br {
+    background-image: linear-gradient(135deg, rgb(15 23 42), rgb(15 23 42) 55%, rgb(8 47 73)) !important;
+  }
+  html.dark .home-section-light,
+  html.dark .home-section-muted { background-color: rgb(15 23 42) !important; }
 }
 
 @layer components {
