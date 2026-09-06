@@ -10,15 +10,17 @@ import { getCareerById } from '@/data/careers';
 import { getChallengesByCareerId, getChallengeById } from '@/data/challenges';
 import { getMentorById } from '@/data/mentors';
 import { getOpportunitiesByFaculty } from '@/data/opportunities';
+import { useLang } from '@/contexts/LanguageContext';
 
 export function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLang();
 
   if (!user) return null;
 
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+  const greeting = hour < 12 ? t.dashboard.goodMorning : hour < 18 ? t.dashboard.goodAfternoon : t.dashboard.goodEvening;
 
   const career = user.topCareer ? getCareerById(user.topCareer) : null;
   const careerChallenges = user.topCareer ? getChallengesByCareerId(user.topCareer) : [];
@@ -48,15 +50,15 @@ export function Dashboard() {
     <AppLayout>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-900">{greeting}, {user.fullName?.split(' ')[0]} 👋</h1>
-        <p className="text-sm text-slate-500 mt-1">Here's an overview of your career journey.</p>
+        <p className="text-sm text-slate-500 mt-1">{t.dashboard.overview}</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard icon={<TrendingUp className="w-5 h-5" />} label="Roadmap Progress" value={`${overallProgress}%`} color="primary" />
-        <StatCard icon={<Award className="w-5 h-5" />} label="Skill Match" value={`${skillMatch}%`} color="secondary" />
-        <StatCard icon={<Target className="w-5 h-5" />} label="Challenges Completed" value={completedCount} color="success" />
-        <StatCard icon={<Briefcase className="w-5 h-5" />} label="Career Goal" value={user.careerGoal || 'Not set'} color="warning" subtitle={career?.title || 'Take assessment'} />
+        <StatCard icon={<TrendingUp className="w-5 h-5" />} label={t.dashboard.roadmapProgress} value={`${overallProgress}%`} color="primary" />
+        <StatCard icon={<Award className="w-5 h-5" />} label={t.dashboard.skillMatch} value={`${skillMatch}%`} color="secondary" />
+        <StatCard icon={<Target className="w-5 h-5" />} label={t.dashboard.challengesCompleted} value={completedCount} color="success" />
+        <StatCard icon={<Briefcase className="w-5 h-5" />} label={t.dashboard.careerGoal} value={user.careerGoal || t.common.notSet} color="warning" subtitle={career?.title || t.dashboard.takeAssessment} />
       </div>
 
       {!user.topCareer && (
@@ -64,9 +66,9 @@ export function Dashboard() {
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-slate-900 mb-1">Complete your assessment</h3>
-              <p className="text-sm text-slate-600 mb-3">Take the career assessment to get your personalized career map, skill gap analysis, and roadmap.</p>
-              <button onClick={() => navigate('/assessment')} className="btn-primary">Take Assessment</button>
+              <h3 className="font-semibold text-slate-900 mb-1">{t.dashboard.completeAssessment}</h3>
+              <p className="text-sm text-slate-600 mb-3">{t.dashboard.completeAssessmentDesc}</p>
+              <button onClick={() => navigate('/assessment')} className="btn-primary">{t.dashboard.takeAssessment}</button>
             </div>
           </div>
         </div>
@@ -77,17 +79,17 @@ export function Dashboard() {
         <div className="card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Sparkles className="w-5 h-5 text-primary-600" />
-            <h3 className="font-bold text-slate-900">Continue Learning</h3>
+            <h3 className="font-bold text-slate-900">{t.dashboard.continueLearning}</h3>
           </div>
           {nextSkill ? (
             <>
-              <p className="text-sm text-slate-500 mb-1">Next recommended skill:</p>
+              <p className="text-sm text-slate-500 mb-1">{t.dashboard.nextSkill}</p>
               <p className="font-semibold text-slate-900 mb-3">{nextSkill.name}</p>
               <ProgressBar value={overallProgress} className="mb-4" showLabel />
-              <Link to="/app/roadmap" className="btn-primary w-full">Continue</Link>
+              <Link to="/roadmap" className="btn-primary w-full">{t.common.continue}</Link>
             </>
           ) : (
-            <p className="text-sm text-slate-500">Complete your assessment to get started.</p>
+            <p className="text-sm text-slate-500">{t.dashboard.completeAssessmentDesc}</p>
           )}
         </div>
 
@@ -95,7 +97,7 @@ export function Dashboard() {
         <div className="card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Users className="w-5 h-5 text-secondary-600" />
-            <h3 className="font-bold text-slate-900">Upcoming Mentorship</h3>
+            <h3 className="font-bold text-slate-900">{t.dashboard.upcomingMentorship}</h3>
           </div>
           {upcomingSession && upcomingMentor ? (
             <>
@@ -112,12 +114,12 @@ export function Dashboard() {
                 <Calendar className="w-4 h-4 text-slate-400" />
                 {upcomingSession.date} - {upcomingSession.time}
               </div>
-              <Link to="/app/mentorship" className="btn-secondary w-full">View Sessions</Link>
+              <Link to="/mentorship" className="btn-secondary w-full">{t.dashboard.viewSessions}</Link>
             </>
           ) : (
             <>
-              <p className="text-sm text-slate-500 mb-4">No mentorship sessions booked yet.</p>
-              <Link to="/app/mentorship" className="btn-secondary w-full">Book a Session</Link>
+              <p className="text-sm text-slate-500 mb-4">{t.dashboard.noSessions}</p>
+              <Link to="/mentorship" className="btn-secondary w-full">{t.dashboard.bookSession}</Link>
             </>
           )}
         </div>
@@ -126,7 +128,7 @@ export function Dashboard() {
         <div className="card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Target className="w-5 h-5 text-success-600" />
-            <h3 className="font-bold text-slate-900">Recommended Challenge</h3>
+            <h3 className="font-bold text-slate-900">{t.dashboard.recommendedChallenge}</h3>
           </div>
           {recommendedChallenge ? (
             <>
@@ -137,12 +139,12 @@ export function Dashboard() {
                 <Badge variant="neutral">{recommendedChallenge.difficulty}</Badge>
               </div>
               <Link to={`/app/challenges/${recommendedChallenge.id}`} className="btn-primary w-full">
-                View Challenge
+                {t.common.viewDetails}
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </>
           ) : (
-            <p className="text-sm text-slate-500">Complete your assessment to get challenge recommendations.</p>
+            <p className="text-sm text-slate-500">{t.dashboard.completeAssessmentDesc}</p>
           )}
         </div>
       </div>
@@ -151,8 +153,8 @@ export function Dashboard() {
       {joinedCount > 0 && (
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-slate-900">Your Active Challenges</h3>
-            <Link to="/app/challenges" className="text-sm text-primary-600 font-medium hover:text-primary-700">View All</Link>
+            <h3 className="font-bold text-slate-900">{t.dashboard.activeChallenges}</h3>
+            <Link to="/challenges" className="text-sm text-primary-600 font-medium hover:text-primary-700">{t.common.viewAll}</Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {user.joinedChallenges!.slice(0, 3).map((chId) => {
@@ -164,7 +166,7 @@ export function Dashboard() {
                   <h4 className="font-semibold text-slate-900 text-sm mb-1">{ch.title}</h4>
                   <p className="text-xs text-slate-500 mb-3">{ch.company}</p>
                   <Badge variant={submitted ? 'success' : 'warning'}>
-                    {submitted ? 'Submitted' : 'In Progress'}
+                    {submitted ? t.challenges.submitted : t.common.inProgress}
                   </Badge>
                 </div>
               );

@@ -3,15 +3,17 @@ import { Target, Users, Award, ArrowRight, Star } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Badge } from '@/components/Badge';
 import { mentors } from '@/data/mentors';
+import { useLang } from '@/contexts/LanguageContext';
 
 export function MentorshipPublic() {
+  const { t } = useLang();
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-10">
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">Mentorship</h1>
-          <p className="mt-3 text-slate-600 max-w-xl mx-auto">Connect with experienced professionals from top Egyptian companies. Get 1-on-1 guidance for your career.</p>
+          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.mentorship.title}</h1>
+          <p className="mt-3 text-slate-600 max-w-xl mx-auto">{t.mentorship.subtitle}</p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -27,8 +29,8 @@ export function MentorshipPublic() {
                 </div>
               </div>
               <div className="space-y-1.5 mb-4 text-sm text-slate-600">
-                <p><span className="text-slate-400">Company:</span> {mentor.company}</p>
-                <p><span className="text-slate-400">Experience:</span> {mentor.yearsExperience} years</p>
+                <p><span className="text-slate-400">{t.mentorship.company}:</span> {mentor.company}</p>
+                <p><span className="text-slate-400">{t.mentorship.experience}:</span> {mentor.yearsExperience}</p>
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-warning-500 fill-warning-500" />
                   <span className="font-semibold">{mentor.rating}</span>
@@ -39,14 +41,14 @@ export function MentorshipPublic() {
                   <span key={s} className="badge bg-slate-100 text-slate-600 text-xs">{s}</span>
                 ))}
               </div>
-              <Link to="/signup" className="btn-secondary w-full mt-auto">Sign up to book</Link>
+              <Link to="/signup" className="btn-secondary w-full mt-auto">{t.mentorship.signUpToBook}</Link>
             </div>
           ))}
         </div>
 
         <div className="mt-12 text-center">
           <Link to="/signup" className="btn-primary text-base px-6 py-3">
-            Sign up to book a session
+            {t.mentorship.signUpToBook}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

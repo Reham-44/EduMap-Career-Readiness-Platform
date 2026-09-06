@@ -18,51 +18,16 @@ import {
 } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { ProgressBar } from '@/components/ProgressBar';
+import { useLang } from '@/contexts/LanguageContext';
 
-const journeySteps = [
-  { icon: Search, label: 'Assessment' },
-  { icon: GitBranch, label: 'Skill Gap' },
-  { icon: TrendingUp, label: 'Roadmap' },
-  { icon: Target, label: 'Real Challenge' },
-  { icon: Briefcase, label: 'Career Opportunity' },
-];
-
-const problems = [
-  'I don\'t know which career fits me.',
-  'I don\'t know what skills companies expect.',
-  'I have a degree but no practical experience.',
-  'My CV doesn\'t prove what I can actually do.',
-  'I apply to jobs but rarely get interviews.',
-];
-
-const solutionSteps = [
-  { icon: Compass, title: 'Discover', desc: 'Take a career assessment to find paths that match your interests and strengths.' },
-  { icon: GitBranch, title: 'Analyze', desc: 'See exactly which skills you have and which ones you need to develop.' },
-  { icon: TrendingUp, title: 'Learn', desc: 'Follow a personalized roadmap with structured learning at every stage.' },
-  { icon: Target, title: 'Prove', desc: 'Solve real business challenges from companies and get evaluated on your performance.' },
-  { icon: Briefcase, title: 'Connect', desc: 'Unlock internships and jobs matched to your proven skills and performance.' },
-];
-
-const howItWorksSteps = [
-  { step: 1, title: 'Take the Assessment', desc: 'Answer 15 questions about your interests, skills, and work preferences.' },
-  { step: 2, title: 'Get Your Career Matches', desc: 'See which career tracks fit you best with match scores and reasoning.' },
-  { step: 3, title: 'See Your Skill Gaps', desc: 'Compare your current skill levels to what employers expect.' },
-  { step: 4, title: 'Follow Your Personalized Roadmap', desc: 'Track your progress through structured learning stages.' },
-  { step: 5, title: 'Solve Real Challenges', desc: 'Tackle real-world business problems from Egyptian companies.' },
-  { step: 6, title: 'Unlock Opportunities', desc: 'Get matched with internships and jobs based on your proven performance.' },
-];
-
-const stats = [
-  { value: '10K+', label: 'Students' },
-  { value: '100+', label: 'Companies' },
-  { value: '500+', label: 'Challenges' },
-  { value: '80%+', label: 'Skill Completion Rate' },
-];
-
-const commercePaths = ['Accounting', 'Finance', 'Marketing', 'HR', 'Business Analytics', 'Business Analysis', 'Supply Chain', 'Banking / FinTech'];
-const lawPaths = ['Legal Practice', 'Corporate Legal', 'Compliance & Risk', 'Legal Research', 'HR & Labor Law', 'Legal Tech'];
+const journeyIcons = [Search, GitBranch, TrendingUp, Target, Briefcase];
+const solutionIcons = [Compass, GitBranch, TrendingUp, Target, Briefcase];
 
 export function Home() {
+  const { t } = useLang();
+  const journeySteps = [t.home.assessment, t.home.skillGap, t.home.roadmap, t.home.realChallenge, t.home.careerOpportunity];
+  const solutionSteps = t.home.solutionSteps.map((step, index) => ({ ...step, icon: solutionIcons[index] }));
+  const howItWorksSteps = t.home.howItWorksSteps;
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
@@ -78,21 +43,21 @@ export function Home() {
             <div className="animate-slide-up">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-100 text-primary-700 text-sm font-medium mb-6">
                 <Sparkles className="w-4 h-4" />
-                Career-readiness for Egyptian students
+                {t.home.badge}
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
-                From University to Career — <span className="text-primary-600">With a Map.</span>
+                {t.home.heroTitle} <span className="text-primary-600">{t.home.heroTitleHighlight}</span>
               </h1>
               <p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-xl">
-                Discover the career path that fits you, identify the skills you are missing, gain practical experience, and connect with real opportunities.
+                {t.home.heroSubtitle}
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <Link to="/signup" className="btn-primary text-base px-6 py-3">
-                  Start Your Journey
+                  {t.home.startJourney}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link to="/career-paths" className="btn-secondary text-base px-6 py-3">
-                  Explore Career Paths
+                  {t.home.explorePaths}
                 </Link>
               </div>
             </div>
@@ -100,10 +65,10 @@ export function Home() {
             {/* Journey visual */}
             <div className="relative animate-slide-up">
               <div className="card p-6 lg:p-8">
-                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-6">The EduMap Journey</h3>
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-6">{t.home.journeyTitle}</h3>
                 <div className="space-y-1">
                   {journeySteps.map((step, i) => {
-                    const Icon = step.icon;
+                    const Icon = journeyIcons[i];
                     return (
                       <div key={i} className="flex items-center gap-4">
                         <div className="flex flex-col items-center">
@@ -113,7 +78,7 @@ export function Home() {
                           {i < journeySteps.length - 1 && <div className="w-0.5 h-8 bg-slate-200" />}
                         </div>
                         <div className="pb-8">
-                          <p className="font-semibold text-slate-800">{step.label}</p>
+                          <p className="font-semibold text-slate-800">{step}</p>
                         </div>
                       </div>
                     );
@@ -130,12 +95,12 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
-              Graduation Shouldn't Be the Start of the Guessing Game.
+              {t.home.problemTitle}
             </h2>
-            <p className="mt-4 text-slate-600">These are the struggles we hear from students every day.</p>
+            <p className="mt-4 text-slate-600">{t.home.problemSubtitle}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {problems.map((problem, i) => (
+            {t.home.problems.map((problem, i) => (
               <div key={i} className="card p-5 flex items-start gap-3 hover:shadow-md transition-shadow">
                 <div className="w-8 h-8 rounded-lg bg-error-50 flex items-center justify-center flex-shrink-0">
                   <span className="text-error-500 text-lg">!</span>
@@ -147,7 +112,7 @@ export function Home() {
               <div className="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center flex-shrink-0">
                 <CheckCircle2 className="w-5 h-5 text-primary-600" />
               </div>
-              <p className="text-sm text-primary-800 font-semibold pt-1">EduMap solves all of these.</p>
+              <p className="text-sm text-primary-800 font-semibold pt-1">{t.home.problemSolution}</p>
             </div>
           </div>
         </div>
@@ -158,9 +123,9 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
-              EduMap Turns Uncertainty Into a Career Plan.
+              {t.home.solutionTitle}
             </h2>
-            <p className="mt-4 text-slate-600">Five steps from lost to job-ready.</p>
+            <p className="mt-4 text-slate-600">{t.home.solutionSubtitle}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {solutionSteps.map((step, i) => {
@@ -170,7 +135,7 @@ export function Home() {
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mx-auto mb-4 shadow-sm">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <p className="text-xs font-semibold text-primary-600 mb-1">STEP {i + 1}</p>
+                  <p className="text-xs font-semibold text-primary-600 mb-1">{i + 1}</p>
                   <h3 className="font-bold text-slate-900 mb-2">{step.title}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
                 </div>
@@ -184,15 +149,15 @@ export function Home() {
       <section className="py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">How It Works</h2>
-            <p className="mt-4 text-slate-600">A clear path from where you are to where you want to be.</p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.home.howItWorksTitle}</h2>
+            <p className="mt-4 text-slate-600">{t.home.howItWorksSubtitle}</p>
           </div>
           <div className="max-w-3xl mx-auto">
             {howItWorksSteps.map((step, i) => (
               <div key={i} className="flex gap-6 pb-8 last:pb-0">
                 <div className="flex flex-col items-center">
                   <div className="w-10 h-10 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
-                    {step.step}
+                    {i + 1}
                   </div>
                   {i < howItWorksSteps.length - 1 && <div className="w-0.5 h-full bg-slate-200 mt-2" />}
                 </div>
@@ -210,18 +175,18 @@ export function Home() {
       <section className="py-16 lg:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">Who Is EduMap For?</h2>
-            <p className="mt-4 text-slate-600">Built for Commerce and Law students in Egyptian universities.</p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.home.targetUsersTitle}</h2>
+            <p className="mt-4 text-slate-600">{t.home.targetUsersSubtitle}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="card p-8 hover:shadow-lg transition-shadow">
               <div className="w-14 h-14 rounded-2xl bg-primary-50 flex items-center justify-center mb-5">
                 <GraduationCap className="w-7 h-7 text-primary-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Commerce Students</h3>
-              <p className="text-sm text-slate-500 mb-5">From accounting to FinTech, discover the business career that fits you.</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t.home.commerceStudents}</h3>
+              <p className="text-sm text-slate-500 mb-5">{t.home.commerceDesc}</p>
               <div className="flex flex-wrap gap-2">
-                {commercePaths.map((path) => (
+                {t.home.commercePaths.map((path) => (
                   <span key={path} className="badge bg-primary-50 text-primary-700">{path}</span>
                 ))}
               </div>
@@ -230,10 +195,10 @@ export function Home() {
               <div className="w-14 h-14 rounded-2xl bg-secondary-50 flex items-center justify-center mb-5">
                 <Scale className="w-7 h-7 text-secondary-600" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Law Students</h3>
-              <p className="text-sm text-slate-500 mb-5">From litigation to legal tech, find your place in the legal world.</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t.home.lawStudents}</h3>
+              <p className="text-sm text-slate-500 mb-5">{t.home.lawDesc}</p>
               <div className="flex flex-wrap gap-2">
-                {lawPaths.map((path) => (
+                {t.home.lawPaths.map((path) => (
                   <span key={path} className="badge bg-secondary-50 text-secondary-700">{path}</span>
                 ))}
               </div>
@@ -246,11 +211,11 @@ export function Home() {
       <section className="py-16 lg:py-20 bg-gradient-to-br from-primary-600 to-primary-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-3">
-            <span className="badge bg-white/20 text-white">Prototype Metrics</span>
+            <span className="badge bg-white/20 text-white">{t.home.statsLabel}</span>
           </div>
-          <p className="text-center text-white/70 text-sm mb-10">Mock statistics for demonstration purposes</p>
+          <p className="text-center text-white/70 text-sm mb-10">{t.home.statsSubtitle}</p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, i) => (
+            {t.home.stats.map((stat, i) => (
               <div key={i} className="text-center">
                 <p className="text-4xl lg:text-5xl font-bold text-white">{stat.value}</p>
                 <p className="text-sm text-white/70 mt-2">{stat.label}</p>
@@ -267,7 +232,7 @@ export function Home() {
             <Sparkles className="w-8 h-8" />
           </div>
           <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 leading-tight">
-            EduMap doesn't just tell students what to learn. It shows them why, helps them practice, measures their performance, and connects them to opportunities.
+            {t.home.usp}
           </h2>
         </div>
       </section>
@@ -277,10 +242,10 @@ export function Home() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="card p-10 lg:p-16 text-center bg-gradient-to-br from-primary-600 to-secondary-600 border-0">
             <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
-              Your Degree Is the Starting Point.<br />Your Career Is the Destination.
+              {t.home.ctaTitle1}<br />{t.home.ctaTitle2}
             </h2>
             <Link to="/signup" className="inline-flex items-center gap-2 mt-8 bg-white text-primary-700 font-semibold px-8 py-3.5 rounded-xl hover:bg-slate-50 transition-colors shadow-sm text-base">
-              Build My Career Map
+              {t.home.ctaButton}
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -298,30 +263,30 @@ export function Home() {
                 </div>
                 <span className="text-xl font-bold text-white">EduMap</span>
               </div>
-              <p className="text-sm">Career readiness for the next generation.</p>
+              <p className="text-sm">{t.home.footerTagline}</p>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-3 text-sm">Quick Links</h4>
+              <h4 className="text-white font-semibold mb-3 text-sm">{t.home.quickLinks}</h4>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <Link to="/how-it-works" className="hover:text-white transition-colors">About</Link>
-                <Link to="/how-it-works" className="hover:text-white transition-colors">How It Works</Link>
-                <Link to="/career-paths" className="hover:text-white transition-colors">Career Paths</Link>
-                <Link to="/challenges" className="hover:text-white transition-colors">Challenges</Link>
-                <Link to="/mentorship" className="hover:text-white transition-colors">Mentorship</Link>
-                <Link to="/login" className="hover:text-white transition-colors">Contact</Link>
+                <Link to="/how-it-works" className="hover:text-white transition-colors">{t.home.footerAbout}</Link>
+                <Link to="/how-it-works" className="hover:text-white transition-colors">{t.home.footerHowItWorks}</Link>
+                <Link to="/career-paths" className="hover:text-white transition-colors">{t.home.footerCareerPaths}</Link>
+                <Link to="/challenges" className="hover:text-white transition-colors">{t.home.footerChallenges}</Link>
+                <Link to="/mentorship" className="hover:text-white transition-colors">{t.home.footerMentorship}</Link>
+                <Link to="/login" className="hover:text-white transition-colors">{t.home.footerContact}</Link>
               </div>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-3 text-sm">For Companies</h4>
-              <p className="text-sm mb-3">Are you a company looking to discover talent?</p>
+              <h4 className="text-white font-semibold mb-3 text-sm">{t.home.footerCompanyTitle}</h4>
+              <p className="text-sm mb-3">{t.home.footerCompanyDesc}</p>
               <Link to="/company/login" className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 text-sm font-medium">
                 <Building2 className="w-4 h-4" />
-                Company Portal
+                {t.home.footerCompanyLink}
               </Link>
             </div>
           </div>
           <div className="mt-10 pt-6 border-t border-slate-800 text-center text-sm">
-            <p>&copy; 2026 EduMap. Built for Egyptian university students.</p>
+            <p>{t.home.footerCopyright}</p>
           </div>
         </div>
       </footer>

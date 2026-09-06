@@ -53,6 +53,11 @@ export interface Translations {
     undo: string;
     viewProject: string;
     viewDetails: string;
+    lightMode: string;
+    darkMode: string;
+    switchLanguage: string;
+    close: string;
+    toggleMenu: string;
   };
   // Home
   home: {
@@ -488,6 +493,11 @@ export const translations: Record<Language, Translations> = {
       undo: 'Undo',
       viewProject: 'View Project',
       viewDetails: 'View Details',
+      lightMode: 'Light mode',
+      darkMode: 'Dark mode',
+      switchLanguage: 'Switch language',
+      close: 'Close',
+      toggleMenu: 'Toggle menu',
     },
     home: {
       badge: 'Career-readiness for Egyptian students',
@@ -638,6 +648,7 @@ export const translations: Record<Language, Translations> = {
       questionOf: 'Question',
       pleaseSelect: 'Please select an answer to continue.',
       assessmentComplete: 'Assessment complete! Generating your career map...',
+      generating: 'Generating your career map...',
     },
     assessmentResult: {
       title: 'Your Career Map Is Ready.',
@@ -951,6 +962,11 @@ export const translations: Record<Language, Translations> = {
       undo: 'تراجع',
       viewProject: 'عرض المشروع',
       viewDetails: 'عرض التفاصيل',
+      lightMode: 'الوضع الفاتح',
+      darkMode: 'الوضع الداكن',
+      switchLanguage: 'تغيير اللغة',
+      close: 'إغلاق',
+      toggleMenu: 'فتح القائمة',
     },
     home: {
       badge: 'التأهب المهني للطلاب المصريين',
@@ -1101,6 +1117,7 @@ export const translations: Record<Language, Translations> = {
       questionOf: 'سؤال',
       pleaseSelect: 'يرجى اختيار إجابة للمتابعة.',
       assessmentComplete: 'اكتمل التقييم! جارٍ إنشاء خريطتك المهنية...',
+      generating: 'جارٍ إنشاء خريطتك المهنية...',
     },
     assessmentResult: {
       title: 'خريطتك المهنية جاهزة.',

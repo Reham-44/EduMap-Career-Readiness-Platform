@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { getCareerById } from '@/data/careers';
 import type { University, Faculty, Section, AcademicStatus, CareerGoal } from '@/types';
+import { useLang } from '@/contexts/LanguageContext';
 
 const universities: University[] = ['Cairo University', 'Ain Shams University', 'Helwan University'];
 const faculties: Faculty[] = ['Commerce', 'Law'];
@@ -17,6 +18,7 @@ const careerGoals: CareerGoal[] = ['Internship', 'First Job', 'Discover path', '
 export function Profile() {
   const { user, updateUser } = useAuth();
   const { showToast } = useToast();
+  const { t } = useLang();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
     fullName: user?.fullName || '',
@@ -49,14 +51,14 @@ export function Profile() {
       careerGoal: form.careerGoal as CareerGoal,
     });
     setEditing(false);
-    showToast('Profile updated successfully!', 'success');
+    showToast(t.profile.updated, 'success');
   };
 
   return (
     <AppLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Profile</h1>
-        <p className="text-sm text-slate-500 mt-1">Manage your personal information and view your career stats.</p>
+        <h1 className="text-2xl font-bold text-slate-900">{t.profile.title}</h1>
+        <p className="text-sm text-slate-500 mt-1">{t.profile.subtitle}</p>
       </div>
 
       {/* Profile header */}
@@ -72,22 +74,22 @@ export function Profile() {
               <div className="flex items-center gap-2 mt-2">
                 <Badge variant="primary">{user.faculty}</Badge>
                 <Badge variant="neutral">{user.academicStatus}</Badge>
-                {career && <Badge variant="secondary">{career.title}</Badge>}
+                {career && <Badge variant="secondary">{t.careerTitles[career.id] || career.title}</Badge>}
               </div>
             </div>
           </div>
           {!editing ? (
             <button onClick={() => setEditing(true)} className="btn-secondary">
               <Edit3 className="w-4 h-4" />
-              Edit Profile
+              {t.profile.editProfile}
             </button>
           ) : (
             <div className="flex gap-2">
               <button onClick={() => setEditing(false)} className="btn-ghost">
-                <X className="w-4 h-4" /> Cancel
+                <X className="w-4 h-4" /> {t.common.cancel}
               </button>
               <button onClick={handleSave} className="btn-primary">
-                <Save className="w-4 h-4" /> Save
+                <Save className="w-4 h-4" /> {t.common.save}
               </button>
             </div>
           )}
@@ -99,14 +101,14 @@ export function Profile() {
         <div className="card p-5">
           <div className="flex items-center gap-2 mb-1">
             <Target className="w-4 h-4 text-primary-500" />
-            <span className="text-xs text-slate-500">Career Path</span>
+            <span className="text-xs text-slate-500">{t.profile.careerPath}</span>
           </div>
-          <p className="font-bold text-slate-900">{career?.title || 'Not set'}</p>
+          <p className="font-bold text-slate-900">{career ? (t.careerTitles[career.id] || career.title) : t.common.notSet}</p>
         </div>
         <div className="card p-5">
           <div className="flex items-center gap-2 mb-1">
             <Award className="w-4 h-4 text-secondary-500" />
-            <span className="text-xs text-slate-500">Overall Progress</span>
+            <span className="text-xs text-slate-500">{t.profile.overallProgress}</span>
           </div>
           <p className="font-bold text-slate-900">{overallProgress}%</p>
           <ProgressBar value={overallProgress} size="sm" className="mt-2" />
@@ -114,73 +116,73 @@ export function Profile() {
         <div className="card p-5">
           <div className="flex items-center gap-2 mb-1">
             <Target className="w-4 h-4 text-success-500" />
-            <span className="text-xs text-slate-500">Completed Challenges</span>
+            <span className="text-xs text-slate-500">{t.dashboard.challengesCompleted}</span>
           </div>
           <p className="font-bold text-slate-900">{completedChallenges}</p>
         </div>
         <div className="card p-5">
           <div className="flex items-center gap-2 mb-1">
             <Briefcase className="w-4 h-4 text-warning-500" />
-            <span className="text-xs text-slate-500">Career Goal</span>
+            <span className="text-xs text-slate-500">{t.profile.careerGoal}</span>
           </div>
-          <p className="font-bold text-slate-900">{user.careerGoal || 'Not set'}</p>
+          <p className="font-bold text-slate-900">{user.careerGoal || t.common.notSet}</p>
         </div>
       </div>
 
       {/* Personal info */}
       <div className="card p-6 mb-6">
-        <h3 className="font-bold text-slate-900 mb-4">Personal Information</h3>
+        <h3 className="font-bold text-slate-900 mb-4">{t.profile.personalInfo}</h3>
         <div className="grid sm:grid-cols-2 gap-4">
           {editing ? (
             <>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1.5">Full Name</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1.5">{t.profile.fullName}</label>
                 <input type="text" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="input-field" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1.5">Email</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1.5">{t.profile.email}</label>
                 <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input-field" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1.5">University</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1.5">{t.profile.university}</label>
                 <select value={form.university} onChange={(e) => setForm({ ...form, university: e.target.value })} className="input-field">
-                  {universities.map((u) => <option key={u} value={u}>{u}</option>)}
+                  {universities.map((u, index) => <option key={u} value={u}>{t.universities[index]}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1.5">Faculty</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1.5">{t.profile.faculty}</label>
                 <select value={form.faculty} onChange={(e) => setForm({ ...form, faculty: e.target.value })} className="input-field">
-                  {faculties.map((f) => <option key={f} value={f}>{f}</option>)}
+                  {faculties.map((f, index) => <option key={f} value={f}>{t.faculties[index]}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1.5">Section</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1.5">{t.profile.section}</label>
                 <select value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} className="input-field">
-                  {sections.map((s) => <option key={s} value={s}>{s}</option>)}
+                  {sections.map((s, index) => <option key={s} value={s}>{t.sections[index]}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1.5">Graduation Year</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1.5">{t.profile.graduationYear}</label>
                 <input type="text" value={form.graduationYear} onChange={(e) => setForm({ ...form, graduationYear: e.target.value })} className="input-field" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1.5">Career Goal</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1.5">{t.profile.careerGoal}</label>
                 <select value={form.careerGoal} onChange={(e) => setForm({ ...form, careerGoal: e.target.value })} className="input-field">
-                  <option value="">Select goal</option>
-                  {careerGoals.map((g) => <option key={g} value={g}>{g}</option>)}
+                  <option value="">{t.profile.selectGoal}</option>
+                  {careerGoals.map((g, index) => <option key={g} value={g}>{t.onboarding.goals[index].label}</option>)}
                 </select>
               </div>
             </>
           ) : (
             <>
-              <InfoRow icon={<User className="w-4 h-4" />} label="Full Name" value={user.fullName} />
-              <InfoRow icon={<Mail className="w-4 h-4" />} label="Email" value={user.email} />
-              <InfoRow icon={<GraduationCap className="w-4 h-4" />} label="University" value={user.university} />
-              <InfoRow icon={<GraduationCap className="w-4 h-4" />} label="Faculty" value={user.faculty} />
-              <InfoRow icon={<User className="w-4 h-4" />} label="Section" value={user.section} />
-              <InfoRow icon={<Calendar className="w-4 h-4" />} label="Graduation Year" value={user.graduationYear} />
-              <InfoRow icon={<Briefcase className="w-4 h-4" />} label="Career Goal" value={user.careerGoal || 'Not set'} />
-              <InfoRow icon={<Target className="w-4 h-4" />} label="Career Path" value={career?.title || 'Not set'} />
+              <InfoRow icon={<User className="w-4 h-4" />} label={t.profile.fullName} value={user.fullName} />
+              <InfoRow icon={<Mail className="w-4 h-4" />} label={t.profile.email} value={user.email} />
+              <InfoRow icon={<GraduationCap className="w-4 h-4" />} label={t.profile.university} value={user.university} />
+              <InfoRow icon={<GraduationCap className="w-4 h-4" />} label={t.profile.faculty} value={user.faculty} />
+              <InfoRow icon={<User className="w-4 h-4" />} label={t.profile.section} value={user.section} />
+              <InfoRow icon={<Calendar className="w-4 h-4" />} label={t.profile.graduationYear} value={user.graduationYear} />
+              <InfoRow icon={<Briefcase className="w-4 h-4" />} label={t.profile.careerGoal} value={user.careerGoal || t.common.notSet} />
+              <InfoRow icon={<Target className="w-4 h-4" />} label={t.profile.careerPath} value={career ? (t.careerTitles[career.id] || career.title) : t.common.notSet} />
             </>
           )}
         </div>
@@ -189,7 +191,7 @@ export function Profile() {
       {/* Skills */}
       {career && (
         <div className="card p-6">
-          <h3 className="font-bold text-slate-900 mb-4">Your Skills</h3>
+          <h3 className="font-bold text-slate-900 mb-4">{t.profile.yourSkills}</h3>
           <div className="space-y-3">
             {career.skills.map((skill) => {
               const current = user.skillLevels?.[skill.name] || 0;

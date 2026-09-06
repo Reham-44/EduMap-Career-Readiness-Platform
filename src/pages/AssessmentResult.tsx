@@ -6,10 +6,12 @@ import { Badge } from '@/components/Badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { getCareerById } from '@/data/careers';
 import { calculateStrengths } from '@/utils/recommendationEngine';
+import { useLang } from '@/contexts/LanguageContext';
 
 export function AssessmentResult() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLang();
 
   if (!user || !user.careerMatches || user.careerMatches.length === 0) {
     return (
@@ -17,9 +19,9 @@ export function AssessmentResult() {
         <div className="px-4 py-4"><Logo /></div>
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="card p-8 text-center max-w-md">
-            <h2 className="text-lg font-semibold text-slate-800 mb-2">No assessment result found</h2>
-            <p className="text-sm text-slate-500 mb-4">Please take the career assessment first.</p>
-            <button onClick={() => navigate('/assessment')} className="btn-primary">Take Assessment</button>
+            <h2 className="text-lg font-semibold text-slate-800 mb-2">{t.assessmentResult.noResult}</h2>
+            <p className="text-sm text-slate-500 mb-4">{t.assessmentResult.noResultDesc}</p>
+            <button onClick={() => navigate('/assessment')} className="btn-primary">{t.assessmentResult.takeAssessment}</button>
           </div>
         </div>
       </div>
@@ -40,24 +42,24 @@ export function AssessmentResult() {
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mx-auto mb-4 shadow-sm">
               <Sparkles className="w-8 h-8" />
             </div>
-            <h1 className="text-3xl font-bold text-slate-900">Your Career Map Is Ready.</h1>
-            <p className="mt-2 text-slate-500">Based on your assessment, here are your best career matches.</p>
+            <h1 className="text-3xl font-bold text-slate-900">{t.assessmentResult.title}</h1>
+            <p className="mt-2 text-slate-500">{t.assessmentResult.subtitle}</p>
           </div>
 
           {/* Top Match */}
           <div className="card p-8 mb-6 bg-gradient-to-br from-primary-600 to-primary-800 border-0 text-white">
             <div className="flex items-center gap-2 mb-3">
               <Award className="w-5 h-5 text-primary-200" />
-              <span className="text-sm font-medium text-primary-200">Top Career Match</span>
+              <span className="text-sm font-medium text-primary-200">{t.assessmentResult.topMatch}</span>
             </div>
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <h2 className="text-3xl font-bold">{topMatch.title}</h2>
+                <h2 className="text-3xl font-bold">{t.careerTitles[topMatch.careerId] || topMatch.title}</h2>
                 <p className="text-primary-200 mt-1">{career?.shortDesc}</p>
               </div>
               <div className="text-center">
                 <p className="text-5xl font-bold">{topMatch.score}<span className="text-2xl">%</span></p>
-                <p className="text-primary-200 text-sm">Match Score</p>
+                <p className="text-primary-200 text-sm">{t.assessmentResult.matchScore}</p>
               </div>
             </div>
           </div>
@@ -68,9 +70,9 @@ export function AssessmentResult() {
               <div key={match.careerId} className="card p-5">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-slate-400">#{i + 1}</span>
-                  <Badge variant={i === 0 ? 'primary' : 'neutral'}>{match.score}% Match</Badge>
+                  <Badge variant={i === 0 ? 'primary' : 'neutral'}>{match.score}% {t.assessmentResult.matchScore}</Badge>
                 </div>
-                <h3 className="font-bold text-slate-900">{match.title}</h3>
+                <h3 className="font-bold text-slate-900">{t.careerTitles[match.careerId] || match.title}</h3>
                 <ProgressBar value={match.score} className="mt-3" size="sm" />
               </div>
             ))}
@@ -81,7 +83,7 @@ export function AssessmentResult() {
             <div className="card p-6">
               <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-success-500" />
-                Why This Path?
+                {t.assessmentResult.whyThisPath}
               </h3>
               <div className="space-y-2.5">
                 {topMatch.reasons.map((reason, i) => (
@@ -97,7 +99,7 @@ export function AssessmentResult() {
             <div className="card p-6">
               <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-primary-600" />
-                Your Strengths
+                {t.assessmentResult.yourStrengths}
               </h3>
               <div className="space-y-3">
                 {strengths.map((s, i) => (
@@ -115,7 +117,7 @@ export function AssessmentResult() {
 
           {/* Skills to Improve */}
           <div className="card p-6 mb-8">
-            <h3 className="font-bold text-slate-900 mb-4">Skills to Improve</h3>
+            <h3 className="font-bold text-slate-900 mb-4">{t.assessmentResult.skillsToImprove}</h3>
             <div className="flex flex-wrap gap-2">
               {skillsToImprove.map((skill) => (
                 <span key={skill} className="badge bg-warning-50 text-warning-700">{skill}</span>
@@ -125,12 +127,12 @@ export function AssessmentResult() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/skill-gaps" className="btn-primary text-base px-6 py-3">
-              View My Skill Gap
+            <Link to="/skill-gap" className="btn-primary text-base px-6 py-3">
+              {t.assessmentResult.viewSkillGap}
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link to="/app/roadmap" className="btn-secondary text-base px-6 py-3">
-              View My Roadmap
+            <Link to="/roadmap" className="btn-secondary text-base px-6 py-3">
+              {t.assessmentResult.viewRoadmap}
             </Link>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { mentors } from '@/data/mentors';
 import type { Mentor, BookedSession } from '@/types';
+import { useLang } from '@/contexts/LanguageContext';
 
 const dates = ['Today', 'Tomorrow', 'Sep 8', 'Sep 9', 'Sep 10', 'Sep 11', 'Sep 12'];
 const times = ['5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM'];
@@ -15,6 +16,7 @@ const times = ['5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM'];
 export function Mentorship() {
   const { user, updateUser } = useAuth();
   const { showToast } = useToast();
+  const { t } = useLang();
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
@@ -46,7 +48,7 @@ export function Mentorship() {
 
   const handleBook = () => {
     if (!selectedMentor || !selectedDate || !selectedTime) {
-      showToast('Please select a date and time.', 'error');
+      showToast(t.mentorship.selectDateTime, 'error');
       return;
     }
     const session: BookedSession = {
@@ -58,7 +60,7 @@ export function Mentorship() {
       time: selectedTime,
     };
     updateUser({ bookedSessions: [...bookedSessions, session] });
-    showToast('Session booked successfully!', 'success');
+    showToast(t.mentorship.sessionBookedSuccess, 'success');
     setSelectedMentor(null);
     setSelectedDate('');
     setSelectedTime('');
@@ -67,8 +69,8 @@ export function Mentorship() {
   return (
     <AppLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Mentorship</h1>
-        <p className="text-sm text-slate-500 mt-1">Book sessions with experienced professionals in your field.</p>
+        <h1 className="text-2xl font-bold text-slate-900">{t.mentorship.title}</h1>
+        <p className="text-sm text-slate-500 mt-1">{t.mentorship.subtitle}</p>
       </div>
 
       {/* Booked sessions */}
@@ -76,7 +78,7 @@ export function Mentorship() {
         <div className="card p-6 mb-8">
           <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
             <Calendar className="w-5 h-5 text-primary-600" />
-            Your Booked Sessions
+            {t.mentorship.bookedSessions}
           </h3>
           <div className="space-y-3">
             {bookedSessions.map((session) => (
@@ -101,12 +103,12 @@ export function Mentorship() {
       )}
 
       {/* Mentor cards */}
-      <h3 className="font-bold text-slate-900 mb-4">Available Mentors</h3>
+      <h3 className="font-bold text-slate-900 mb-4">{t.mentorship.availableMentors}</h3>
       {relevantMentors.length === 0 ? (
         <EmptyState
           icon={<Users className="w-7 h-7" />}
-          title="No mentors available"
-          message="No mentors match your career track at the moment."
+          title={t.mentorship.noMentors}
+          message={t.mentorship.noMentorsDesc}
         />
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -125,13 +127,13 @@ export function Mentorship() {
                 </div>
 
                 <div className="space-y-2 mb-4 text-sm text-slate-600">
-                  <p><span className="text-slate-400">Company:</span> {mentor.company}</p>
-                  <p><span className="text-slate-400">Experience:</span> {mentor.yearsExperience} years</p>
-                  <p><span className="text-slate-400">Track:</span> {mentor.careerTrack}</p>
+                  <p><span className="text-slate-400">{t.mentorship.company}:</span> {mentor.company}</p>
+                  <p><span className="text-slate-400">{t.mentorship.experience}:</span> {mentor.yearsExperience}</p>
+                  <p><span className="text-slate-400">{t.mentorship.track}:</span> {mentor.careerTrack}</p>
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-warning-500 fill-warning-500" />
                     <span className="font-semibold">{mentor.rating}</span>
-                    <span className="text-slate-400 text-xs">rating</span>
+                    <span className="text-slate-400 text-xs">{t.mentorship.rating}</span>
                   </div>
                 </div>
 
@@ -146,7 +148,7 @@ export function Mentorship() {
                   disabled={alreadyBooked}
                   className={alreadyBooked ? 'btn-secondary w-full opacity-60 pointer-events-none' : 'btn-primary w-full'}
                 >
-                  {alreadyBooked ? <><CheckCircle2 className="w-4 h-4" /> Session Booked</> : 'Book Session'}
+                  {alreadyBooked ? <><CheckCircle2 className="w-4 h-4" /> {t.mentorship.sessionBooked}</> : t.mentorship.bookSession}
                 </button>
               </div>
             );
@@ -155,7 +157,7 @@ export function Mentorship() {
       )}
 
       {/* Booking Modal */}
-      <Modal open={!!selectedMentor} onClose={() => setSelectedMentor(null)} title="Book a Mentorship Session">
+      <Modal open={!!selectedMentor} onClose={() => setSelectedMentor(null)} title={t.mentorship.bookTitle}>
         {selectedMentor && (
           <div>
             <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-slate-50">
@@ -169,7 +171,7 @@ export function Mentorship() {
             </div>
 
             <div className="mb-5">
-              <label className="block text-sm font-medium text-slate-700 mb-2">Choose Date</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">{t.mentorship.chooseDate}</label>
               <div className="grid grid-cols-4 gap-2">
                 {dates.map((d) => (
                   <button
@@ -184,7 +186,7 @@ export function Mentorship() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-slate-700 mb-2">Choose Time</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">{t.mentorship.chooseTime}</label>
               <div className="grid grid-cols-3 gap-2">
                 {times.map((t) => (
                   <button
@@ -198,7 +200,7 @@ export function Mentorship() {
               </div>
             </div>
 
-            <button onClick={handleBook} className="btn-primary w-full">Confirm Booking</button>
+            <button onClick={handleBook} className="btn-primary w-full">{t.mentorship.confirmBooking}</button>
           </div>
         )}
       </Modal>

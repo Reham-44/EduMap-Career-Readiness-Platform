@@ -3,6 +3,7 @@ import { Target, Clock, Users, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Badge } from '@/components/Badge';
 import { challenges } from '@/data/challenges';
+import { useLang } from '@/contexts/LanguageContext';
 
 const difficultyColors: Record<string, 'success' | 'warning' | 'error'> = {
   Beginner: 'success',
@@ -11,20 +12,21 @@ const difficultyColors: Record<string, 'success' | 'warning' | 'error'> = {
 };
 
 export function ChallengesPublic() {
+  const { t } = useLang();
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-10">
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">Real-World Challenges</h1>
-          <p className="mt-3 text-slate-600 max-w-xl mx-auto">Solve real business and legal problems from Egyptian companies. Prove your skills and build your portfolio.</p>
+          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.challenges.title}</h1>
+          <p className="mt-3 text-slate-600 max-w-xl mx-auto">{t.challenges.subtitle}</p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {challenges.map((ch) => (
             <div key={ch.id} className="card p-5 hover:shadow-lg transition-shadow flex flex-col">
               <div className="flex items-center justify-between mb-3">
-                <Badge variant={difficultyColors[ch.difficulty]}>{ch.difficulty}</Badge>
+                <Badge variant={difficultyColors[ch.difficulty]}>{ch.difficulty === 'Beginner' ? t.difficulty.beginner : ch.difficulty === 'Intermediate' ? t.difficulty.intermediate : t.difficulty.advanced}</Badge>
                 <Badge variant="neutral">{ch.faculty}</Badge>
               </div>
               <h3 className="font-bold text-slate-900 mb-1">{ch.title}</h3>
@@ -37,7 +39,7 @@ export function ChallengesPublic() {
               </div>
               <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-xs text-slate-400">
                 <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {ch.estimatedTime}</span>
-                <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {ch.participants}</span>
+                <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {ch.participants} {t.challenges.participants}</span>
               </div>
             </div>
           ))}
@@ -45,7 +47,7 @@ export function ChallengesPublic() {
 
         <div className="mt-12 text-center">
           <Link to="/signup" className="btn-primary text-base px-6 py-3">
-            Sign up to join challenges
+            {t.auth.signUp}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

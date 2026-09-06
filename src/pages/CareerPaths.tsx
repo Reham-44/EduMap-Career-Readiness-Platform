@@ -6,9 +6,11 @@ import { ProgressBar } from '@/components/ProgressBar';
 import { careers } from '@/data/careers';
 import type { Faculty } from '@/types';
 import * as Icons from 'lucide-react';
+import { useLang } from '@/contexts/LanguageContext';
 
 export function CareerPaths() {
   const [filter, setFilter] = useState<Faculty | 'All'>('All');
+  const { t } = useLang();
 
   const filtered = filter === 'All' ? careers : careers.filter((c) => c.faculty === filter);
 
@@ -17,8 +19,8 @@ export function CareerPaths() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">Career Paths</h1>
-          <p className="mt-3 text-slate-600 max-w-xl mx-auto">Explore career tracks available for Commerce and Law students.</p>
+          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.nav.careerPaths}</h1>
+          <p className="mt-3 text-slate-600 max-w-xl mx-auto">{t.home.targetUsersSubtitle}</p>
         </div>
 
         <div className="flex justify-center gap-2 mb-8">
@@ -30,7 +32,7 @@ export function CareerPaths() {
                 filter === f ? 'bg-primary-600 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
               }`}
             >
-              {f === 'All' ? 'All Paths' : f}
+              {f === 'All' ? t.common.viewAll : f === 'Commerce' ? t.home.commerceStudents : t.home.lawStudents}
             </button>
           ))}
         </div>
@@ -45,11 +47,11 @@ export function CareerPaths() {
                 }`}>
                   <IconComp className="w-6 h-6" />
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg mb-1">{career.title}</h3>
+                <h3 className="font-bold text-slate-900 text-lg mb-1">{t.careerTitles[career.id] || career.title}</h3>
                 <p className="text-sm text-slate-500 mb-4 flex-1">{career.shortDesc}</p>
 
                 <div className="mb-4">
-                  <p className="text-xs font-semibold text-slate-400 uppercase mb-2">Key Skills</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase mb-2">{t.profile.yourSkills}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {career.skills.slice(0, 4).map((s) => (
                       <span key={s.name} className="badge bg-slate-100 text-slate-600">{s.name}</span>
@@ -62,7 +64,7 @@ export function CareerPaths() {
                     {career.faculty}
                   </span>
                   <Link to="/signup" className="text-sm font-semibold text-primary-600 hover:text-primary-700 flex items-center gap-1">
-                    Explore <ArrowRight className="w-3.5 h-3.5" />
+                    {t.common.viewDetails} <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
@@ -75,10 +77,10 @@ export function CareerPaths() {
             <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center mb-4">
               <GraduationCap className="w-6 h-6 text-primary-600" />
             </div>
-            <h3 className="font-bold text-slate-900 text-lg mb-2">Commerce Students</h3>
-            <p className="text-sm text-slate-500 mb-4">8 career tracks available including Accounting, Finance, Marketing, HR, Business Analytics, Business Analyst, Supply Chain, and Banking & FinTech.</p>
+            <h3 className="font-bold text-slate-900 text-lg mb-2">{t.home.commerceStudents}</h3>
+            <p className="text-sm text-slate-500 mb-4">{t.home.commerceDesc}</p>
             <div className="space-y-1.5">
-              {['Accounting', 'Finance', 'Marketing', 'HR', 'Business Analytics', 'Business Analyst', 'Supply Chain', 'Banking / FinTech'].map((p) => (
+              {t.home.commercePaths.map((p) => (
                 <div key={p} className="flex items-center gap-2 text-sm text-slate-600">
                   <CheckCircle2 className="w-4 h-4 text-success-500" /> {p}
                 </div>
@@ -89,10 +91,10 @@ export function CareerPaths() {
             <div className="w-12 h-12 rounded-xl bg-secondary-100 flex items-center justify-center mb-4">
               <Scale className="w-6 h-6 text-secondary-600" />
             </div>
-            <h3 className="font-bold text-slate-900 text-lg mb-2">Law Students</h3>
-            <p className="text-sm text-slate-500 mb-4">6 career tracks available including Legal Practice, Corporate Legal, Compliance & Risk, Legal Research, HR & Labor Law, and Legal Tech.</p>
+            <h3 className="font-bold text-slate-900 text-lg mb-2">{t.home.lawStudents}</h3>
+            <p className="text-sm text-slate-500 mb-4">{t.home.lawDesc}</p>
             <div className="space-y-1.5">
-              {['Legal Practice', 'Corporate Legal', 'Compliance & Risk', 'Legal Research', 'HR & Labor Law', 'Legal Tech'].map((p) => (
+              {t.home.lawPaths.map((p) => (
                 <div key={p} className="flex items-center gap-2 text-sm text-slate-600">
                   <CheckCircle2 className="w-4 h-4 text-success-500" /> {p}
                 </div>

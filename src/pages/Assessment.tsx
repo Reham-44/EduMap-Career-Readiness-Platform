@@ -7,20 +7,23 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { getQuestions } from '@/data/questions';
 import { calculateCareerMatches, calculateStrengths, getInitialSkillLevels } from '@/utils/recommendationEngine';
+import { useLang } from '@/contexts/LanguageContext';
+import { getLocalizedQuestion } from '@/i18n/assessmentContent';
 
 export function Assessment() {
   const navigate = useNavigate();
   const { user, updateUser } = useAuth();
   const { showToast } = useToast();
+  const { t, lang } = useLang();
   const questions = getQuestions(user?.faculty || 'Commerce');
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
 
   if (!user) {
-    return <div className="min-h-screen flex items-center justify-center">Redirecting...</div>;
+    return <div className="min-h-screen flex items-center justify-center">{t.common.redirecting}</div>;
   }
 
-  const question = questions[currentQ];
+  const question = getLocalizedQuestion(questions[currentQ], user.faculty, lang);
   const progress = ((currentQ + 1) / questions.length) * 100;
   const selectedOption = answers[question.id];
 
@@ -30,7 +33,7 @@ export function Assessment() {
 
   const handleNext = () => {
     if (selectedOption === undefined) {
-      showToast('Please select an answer to continue.', 'error');
+      showToast(t.assessment.pleaseSelect, 'error');
       return;
     }
     if (currentQ < questions.length - 1) {
@@ -48,7 +51,7 @@ export function Assessment() {
         skillLevels,
       });
 
-      showToast('Assessment complete! Generating your career map...', 'success');
+      showToast(t.assessment.assessmentComplete, 'success');
       setTimeout(() => navigate('/assessment-result'), 500);
     }
   };
@@ -66,8 +69,8 @@ export function Assessment() {
         <div className="w-full max-w-2xl">
           <div className="mb-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-slate-500">Career Assessment</span>
-              <span className="text-sm font-semibold text-primary-600">Question {currentQ + 1} of {questions.length}</span>
+              <span className="text-sm font-medium text-slate-500">{t.assessment.title}</span>
+              <span className="text-sm font-semibold text-primary-600">{t.assessment.questionOf} {currentQ + 1} / {questions.length}</span>
             </div>
             <ProgressBar value={progress} color="bg-primary-600" size="md" />
           </div>
@@ -103,10 +106,10 @@ export function Assessment() {
                 className="btn-ghost disabled:opacity-40 disabled:pointer-events-none"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Previous
+                {t.common.previous}
               </button>
               <button onClick={handleNext} className="btn-primary">
-                {currentQ === questions.length - 1 ? 'Submit' : 'Next'}
+                {currentQ === questions.length - 1 ? t.common.submit : t.common.next}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

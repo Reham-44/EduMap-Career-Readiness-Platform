@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { Badge } from '@/components/Badge';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLang } from '@/contexts/LanguageContext';
 
 const mockCandidates = [
   { id: 'c1', name: 'Sara Ahmed', university: 'Cairo University', career: 'Business Analyst', score: 94, skills: ['Excel', 'Power BI', 'Business Analysis'], challengesCompleted: 3 },
@@ -19,6 +20,7 @@ export function CompanyCandidates() {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [career, setCareer] = useState('All');
+  const { t } = useLang();
 
   if (!user) return null;
   const careers = [...new Set(mockCandidates.map((candidate) => candidate.career))];
@@ -30,29 +32,29 @@ export function CompanyCandidates() {
   return (
     <AppLayout role="company">
       <Link to="/company/dashboard" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600 mb-4">
-        <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+        <ArrowLeft className="w-4 h-4" /> {t.company.backToDashboard}
       </Link>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Candidates</h1>
-        <p className="text-sm text-slate-500 mt-1">Browse top-performing students who have completed challenges.</p>
+        <h1 className="text-2xl font-bold text-slate-900">{t.company.candidates}</h1>
+        <p className="text-sm text-slate-500 mt-1">{t.company.candidatesSubtitle}</p>
       </div>
 
       <div className="card p-6 mb-6">
         <div className="flex items-center gap-2 mb-3">
           <Users className="w-5 h-5 text-primary-600" />
-          <h3 className="font-bold text-slate-900">All Candidates</h3>
+          <h3 className="font-bold text-slate-900">{t.company.allCandidates}</h3>
         </div>
         <div className="grid sm:grid-cols-2 gap-3 mb-5">
           <label className="relative">
-            <span className="sr-only">Search candidates</span>
+            <span className="sr-only">{t.company.allCandidates}</span>
             <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} className="input-field ps-10" placeholder="Search candidates" />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} className="input-field ps-10" placeholder={t.company.allCandidates} />
           </label>
           <label>
-            <span className="sr-only">Filter by career path</span>
+            <span className="sr-only">{t.company.career}</span>
             <select value={career} onChange={(event) => setCareer(event.target.value)} className="input-field">
-              <option>All</option>
+              <option value="All">{t.opportunities.all}</option>
               {careers.map((item) => <option key={item}>{item}</option>)}
             </select>
           </label>
@@ -61,11 +63,11 @@ export function CompanyCandidates() {
           <table className="w-full">
             <thead>
               <tr className="text-left text-xs font-semibold text-slate-400 uppercase border-b border-slate-100">
-                <th className="pb-3 pr-4">Candidate</th>
-                <th className="pb-3 pr-4">University</th>
-                <th className="pb-3 pr-4">Career Path</th>
-                <th className="pb-3 pr-4">Challenges</th>
-                <th className="pb-3 pr-4">Score</th>
+                <th className="pb-3 pr-4">{t.company.candidate}</th>
+                <th className="pb-3 pr-4">{t.company.university}</th>
+                <th className="pb-3 pr-4">{t.company.career}</th>
+                <th className="pb-3 pr-4">{t.company.challenges}</th>
+                <th className="pb-3 pr-4">{t.company.score}</th>
                 <th className="pb-3"></th>
               </tr>
             </thead>
@@ -91,12 +93,12 @@ export function CompanyCandidates() {
                   </td>
                   <td className="py-3">
                     <button onClick={(e) => { e.stopPropagation(); navigate(`/company/candidates/${c.id}`); }} className="text-sm font-semibold text-primary-600 hover:text-primary-700">
-                      View
+                      {t.common.view}
                     </button>
                   </td>
                 </tr>
               ))}
-              {visibleCandidates.length === 0 && <tr><td colSpan={6} className="py-8 text-center text-sm text-slate-500">No candidates match your search.</td></tr>}
+              {visibleCandidates.length === 0 && <tr><td colSpan={6} className="py-8 text-center text-sm text-slate-500">{t.company.candidatesSubtitle}</td></tr>}
             </tbody>
           </table>
         </div>

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { X } from 'lucide-react';
+import { useLang } from '@/contexts/LanguageContext';
 
 export function Modal({
   open,
@@ -15,6 +16,7 @@ export function Modal({
   children: ReactNode;
   maxWidth?: string;
 }) {
+  const { t } = useLang();
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -32,7 +34,7 @@ export function Modal({
       <div className={`relative w-full ${maxWidth} bg-white rounded-2xl shadow-xl border border-slate-200 max-h-[90vh] overflow-y-auto animate-slide-up`}>
         <div className="flex items-center justify-between p-5 border-b border-slate-100 sticky top-0 bg-white rounded-t-2xl z-10">
           <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
+          <button onClick={onClose} aria-label={t.common.close} className="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>

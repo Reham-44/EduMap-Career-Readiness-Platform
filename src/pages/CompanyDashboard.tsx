@@ -5,6 +5,7 @@ import { StatCard } from '@/components/StatCard';
 import { Badge } from '@/components/Badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { challenges } from '@/data/challenges';
+import { useLang } from '@/contexts/LanguageContext';
 
 const mockCandidates = [
   { id: 'c1', name: 'Sara Ahmed', university: 'Cairo University', career: 'Business Analyst', score: 94, skills: ['Excel', 'Power BI', 'Business Analysis'], challengesCompleted: 3 },
@@ -18,6 +19,7 @@ const mockCandidates = [
 export function CompanyDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLang();
 
   if (!user) return null;
 
@@ -33,21 +35,21 @@ export function CompanyDashboard() {
             <Building2 className="w-6 h-6 text-primary-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">{user.companyName || 'Company'} Dashboard</h1>
-            <p className="text-sm text-slate-500">Discover top-performing students and manage your challenges.</p>
+            <h1 className="text-2xl font-bold text-slate-900">{user.companyName || t.sidebar.company} {t.company.dashboard}</h1>
+            <p className="text-sm text-slate-500">{t.company.dashboardSubtitle}</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard icon={<Target className="w-5 h-5" />} label="Active Challenges" value={activeChallenges} color="primary" />
-        <StatCard icon={<Users className="w-5 h-5" />} label="Total Participants" value={totalParticipants} color="secondary" />
-        <StatCard icon={<Award className="w-5 h-5" />} label="Completed Challenges" value={completedChallenges} color="success" />
-        <StatCard icon={<Star className="w-5 h-5" />} label="Top Candidates" value={mockCandidates.length} color="warning" />
+        <StatCard icon={<Target className="w-5 h-5" />} label={t.company.activeChallenges} value={activeChallenges} color="primary" />
+        <StatCard icon={<Users className="w-5 h-5" />} label={t.company.totalParticipants} value={totalParticipants} color="secondary" />
+        <StatCard icon={<Award className="w-5 h-5" />} label={t.company.completedChallenges} value={completedChallenges} color="success" />
+        <StatCard icon={<Star className="w-5 h-5" />} label={t.company.topCandidates} value={mockCandidates.length} color="warning" />
       </div>
 
       <div className="mb-6">
-        <h3 className="font-bold text-slate-900 mb-4">Top Performing Students</h3>
+        <h3 className="font-bold text-slate-900 mb-4">{t.company.topStudents}</h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {mockCandidates.map((candidate) => (
             <div key={candidate.id} className="card p-6 hover:shadow-lg transition-shadow flex flex-col">
@@ -62,12 +64,12 @@ export function CompanyDashboard() {
               </div>
 
               <div className="space-y-2 mb-4 text-sm text-slate-600">
-                <p><span className="text-slate-400">Career:</span> {candidate.career}</p>
-                <p><span className="text-slate-400">Challenges:</span> {candidate.challengesCompleted} completed</p>
+                <p><span className="text-slate-400">{t.company.career}:</span> {candidate.career}</p>
+                <p><span className="text-slate-400">{t.company.challenges}:</span> {candidate.challengesCompleted} {t.common.completed}</p>
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-warning-500 fill-warning-500" />
                   <span className="font-semibold">{candidate.score}%</span>
-                  <span className="text-slate-400 text-xs">avg score</span>
+                  <span className="text-slate-400 text-xs">{t.company.score}</span>
                 </div>
               </div>
 
@@ -78,7 +80,7 @@ export function CompanyDashboard() {
               </div>
 
               <button onClick={() => navigate(`/company/candidates/${candidate.id}`)} className="btn-primary w-full mt-auto">
-                View Candidate
+                {t.company.viewCandidate}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

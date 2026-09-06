@@ -19,23 +19,23 @@ import {
 import { Logo } from './Logo';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useLang } from '@/contexts/LanguageContext';
 
 const studentLinks = [
-  { label: 'Dashboard', to: '/app/dashboard', icon: LayoutDashboard },
-  { label: 'My Career Map', to: '/app/career-map', icon: Map },
-  { label: 'Skill Gaps', to: '/app/skill-gaps', icon: GitBranch },
-  { label: 'Roadmap', to: '/app/roadmap', icon: TrendingUp },
-  { label: 'Challenges', to: '/app/challenges', icon: Target },
-  { label: 'Mentorship', to: '/app/mentorship', icon: Users },
-  { label: 'Portfolio', to: '/app/portfolio', icon: FolderOpen },
-  { label: 'Opportunities', to: '/app/opportunities', icon: Briefcase },
-  { label: 'Profile', to: '/app/profile', icon: User },
+  { key: 'dashboard', to: '/app/dashboard', icon: LayoutDashboard },
+  { key: 'careerMap', to: '/app/career-map', icon: Map },
+  { key: 'skillGaps', to: '/app/skill-gaps', icon: GitBranch },
+  { key: 'roadmap', to: '/app/roadmap', icon: TrendingUp },
+  { key: 'challenges', to: '/app/challenges', icon: Target },
+  { key: 'mentorship', to: '/app/mentorship', icon: Users },
+  { key: 'portfolio', to: '/app/portfolio', icon: FolderOpen },
+  { key: 'opportunities', to: '/app/opportunities', icon: Briefcase },
+  { key: 'profile', to: '/app/profile', icon: User },
 ];
 
 const companyLinks = [
-  { label: 'Dashboard', to: '/company/dashboard', icon: LayoutDashboard },
-  { label: 'Challenges', to: '/company/challenges', icon: Target },
-  { label: 'Candidates', to: '/company/candidates', icon: Users },
+  { key: 'dashboard', to: '/company/dashboard', icon: LayoutDashboard },
+  { key: 'candidates', to: '/company/candidates', icon: Users },
 ];
 
 export function Sidebar() {
@@ -43,6 +43,7 @@ export function Sidebar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { t, lang, toggleLang } = useLang();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isCompany = user?.accountType === 'company';
@@ -61,7 +62,7 @@ export function Sidebar() {
 
       <div className="px-3 py-4 flex-1 overflow-y-auto">
         <p className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-          {isCompany ? 'Company' : 'Student'}
+          {isCompany ? t.sidebar.company : t.sidebar.student}
         </p>
         <nav className="space-y-1">
           {links.map((link) => {
@@ -79,7 +80,7 @@ export function Sidebar() {
                 }`}
               >
                 <Icon className="w-4.5 h-4.5" style={{ width: 18, height: 18 }} />
-                {link.label}
+                {t.sidebar[link.key as keyof typeof t.sidebar]}
               </Link>
             );
           })}
@@ -95,19 +96,23 @@ export function Sidebar() {
             <p className="text-sm font-medium text-slate-800 truncate">
               {isCompany ? user?.companyName : user?.fullName}
             </p>
-            <p className="text-xs text-slate-400 truncate">{isCompany ? 'Company Account' : user?.email}</p>
+            <p className="text-xs text-slate-400 truncate">{isCompany ? t.sidebar.companyAccount : user?.email}</p>
           </div>
         </div>
-        <button onClick={toggleTheme} className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors" aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+        <button onClick={toggleTheme} className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors" aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}>
           {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          {theme === 'dark' ? t.common.lightMode : t.common.darkMode}
+        </button>
+        <button onClick={toggleLang} className="flex items-center justify-between px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors" aria-label={t.common.switchLanguage}>
+          <span>{lang === 'ar' ? 'English' : 'العربية'}</span>
+          <span className="text-xs text-slate-400">{lang.toUpperCase()}</span>
         </button>
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-slate-600 hover:bg-error-50 hover:text-error-600 transition-colors"
         >
           <LogOut className="w-4.5 h-4.5" style={{ width: 18, height: 18 }} />
-          Logout
+          {t.sidebar.logout}
         </button>
       </div>
     </div>

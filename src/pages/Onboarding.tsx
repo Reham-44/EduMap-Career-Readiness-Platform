@@ -5,6 +5,7 @@ import { Logo } from '@/components/Logo';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import type { CareerGoal, ConfidenceLevel } from '@/types';
+import { useLang } from '@/contexts/LanguageContext';
 
 const goals: { value: CareerGoal; label: string; icon: string }[] = [
   { value: 'Internship', label: 'I want an Internship', icon: 'Briefcase' },
@@ -24,21 +25,22 @@ export function Onboarding() {
   const navigate = useNavigate();
   const { user, updateUser } = useAuth();
   const { showToast } = useToast();
+  const { t } = useLang();
   const [step, setStep] = useState(1);
   const [goal, setGoal] = useState<CareerGoal | ''>('');
   const [confidence, setConfidence] = useState<ConfidenceLevel | ''>('');
 
   if (!user) {
-    return <div className="min-h-screen flex items-center justify-center">Redirecting...</div>;
+    return <div className="min-h-screen flex items-center justify-center">{t.common.redirecting}</div>;
   }
 
   const handleNext = () => {
     if (step === 1 && !goal) {
-      showToast('Please select your main goal.', 'error');
+      showToast(t.onboarding.selectGoal, 'error');
       return;
     }
     if (step === 2 && !confidence) {
-      showToast('Please select your confidence level.', 'error');
+      showToast(t.onboarding.selectConfidence, 'error');
       return;
     }
     if (step < 2) {
@@ -46,7 +48,7 @@ export function Onboarding() {
       return;
     }
     updateUser({ careerGoal: goal as CareerGoal, confidence: confidence as ConfidenceLevel });
-    showToast('Onboarding complete!', 'success');
+    showToast(t.onboarding.onboardingComplete, 'success');
     navigate('/assessment');
   };
 
@@ -77,10 +79,10 @@ export function Onboarding() {
                 <div className="w-14 h-14 rounded-2xl bg-primary-50 flex items-center justify-center mb-5">
                   <Target className="w-7 h-7 text-primary-600" />
                 </div>
-                <h1 className="text-2xl font-bold text-slate-900 mb-2">Let's Build Your Career Map.</h1>
-                <p className="text-sm text-slate-500 mb-6">What is your main goal?</p>
+                <h1 className="text-2xl font-bold text-slate-900 mb-2">{t.onboarding.title}</h1>
+                <p className="text-sm text-slate-500 mb-6">{t.onboarding.goalQuestion}</p>
                 <div className="space-y-2">
-                  {goals.map((g) => (
+                  {goals.map((g, index) => (
                     <button
                       key={g.value}
                       onClick={() => setGoal(g.value)}
@@ -93,7 +95,7 @@ export function Onboarding() {
                       }`}>
                         {goal === g.value && <div className="w-2 h-2 bg-white rounded-full" />}
                       </div>
-                      <span className="text-sm font-medium text-slate-700">{g.label}</span>
+                      <span className="text-sm font-medium text-slate-700">{t.onboarding.goals[index].label}</span>
                     </button>
                   ))}
                 </div>
@@ -105,10 +107,10 @@ export function Onboarding() {
                 <div className="w-14 h-14 rounded-2xl bg-secondary-50 flex items-center justify-center mb-5">
                   <Compass className="w-7 h-7 text-secondary-600" />
                 </div>
-                <h1 className="text-2xl font-bold text-slate-900 mb-2">How confident are you?</h1>
-                <p className="text-sm text-slate-500 mb-6">How confident are you about your career choice?</p>
+                <h1 className="text-2xl font-bold text-slate-900 mb-2">{t.onboarding.confidenceQuestion}</h1>
+                <p className="text-sm text-slate-500 mb-6">{t.onboarding.confidenceQuestion}</p>
                 <div className="space-y-2">
-                  {confidenceLevels.map((c) => (
+                  {confidenceLevels.map((c, index) => (
                     <button
                       key={c.value}
                       onClick={() => setConfidence(c.value)}
@@ -122,8 +124,8 @@ export function Onboarding() {
                         {confidence === c.value && <div className="w-2 h-2 bg-white rounded-full" />}
                       </div>
                       <div>
-                        <span className="text-sm font-medium text-slate-700 block">{c.label}</span>
-                        <span className="text-xs text-slate-400">{c.desc}</span>
+                        <span className="text-sm font-medium text-slate-700 block">{t.onboarding.confidenceLevels[index].label}</span>
+                        <span className="text-xs text-slate-400">{t.onboarding.confidenceLevels[index].desc}</span>
                       </div>
                     </button>
                   ))}
@@ -133,10 +135,10 @@ export function Onboarding() {
 
             <div className="flex items-center justify-between mt-8">
               {step > 1 ? (
-                <button onClick={() => setStep(step - 1)} className="btn-ghost">Back</button>
+                <button onClick={() => setStep(step - 1)} className="btn-ghost">{t.common.back}</button>
               ) : <div />}
               <button onClick={handleNext} className="btn-primary">
-                {step === 2 ? 'Start Assessment' : 'Continue'}
+                {step === 2 ? t.onboarding.startAssessment : t.common.continue}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

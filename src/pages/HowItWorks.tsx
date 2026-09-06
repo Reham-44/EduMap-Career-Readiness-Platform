@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Compass, GitBranch, TrendingUp, Target, Briefcase, ArrowRight, Search, Map } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
+import { useLang } from '@/contexts/LanguageContext';
 
 const steps = [
   { icon: Search, title: 'Take the Assessment', desc: 'Answer 15 questions about your interests, skills, and work preferences. Our engine analyzes your answers to find the best career matches.', color: 'primary' },
@@ -20,6 +21,8 @@ const colorMap: Record<string, string> = {
 };
 
 export function HowItWorks() {
+  const { t } = useLang();
+  const localizedSteps = t.home.howItWorksSteps.map((step, index) => ({ ...steps[index], ...step }));
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
@@ -28,12 +31,12 @@ export function HowItWorks() {
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white mx-auto mb-5 shadow-sm">
             <Map className="w-8 h-8" />
           </div>
-          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">How EduMap Works</h1>
-          <p className="mt-4 text-slate-600 max-w-xl mx-auto">Six steps from where you are to where you want to be. No guessing, no wasted effort.</p>
+          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">{t.home.howItWorksTitle}</h1>
+          <p className="mt-4 text-slate-600 max-w-xl mx-auto">{t.home.howItWorksSubtitle}</p>
         </div>
 
         <div className="space-y-4">
-          {steps.map((step, i) => {
+          {localizedSteps.map((step, i) => {
             const Icon = step.icon;
             return (
               <div key={i} className="card p-6 flex gap-5 hover:shadow-md transition-shadow">
@@ -42,7 +45,7 @@ export function HowItWorks() {
                 </div>
                 <div>
                   <div className="flex items-center gap-3 mb-1">
-                    <span className="text-xs font-bold text-slate-400">STEP {i + 1}</span>
+                    <span className="text-xs font-bold text-slate-400">{i + 1}</span>
                     <h3 className="font-bold text-slate-900 text-lg">{step.title}</h3>
                   </div>
                   <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
@@ -54,7 +57,7 @@ export function HowItWorks() {
 
         <div className="mt-12 text-center">
           <Link to="/signup" className="btn-primary text-base px-6 py-3">
-            Start Your Journey
+            {t.home.startJourney}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

@@ -38,11 +38,11 @@ export function Navbar() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <button onClick={toggleTheme} className="btn-ghost px-3" aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+            <button onClick={toggleTheme} className="btn-ghost px-3" aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}>
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              {theme === 'dark' ? 'Light' : 'Dark'}
+              {theme === 'dark' ? t.common.lightMode : t.common.darkMode}
             </button>
-            <button onClick={toggleLang} className="btn-ghost px-3" aria-label="Switch language">
+            <button onClick={toggleLang} className="btn-ghost px-3" aria-label={t.common.switchLanguage}>
               <Languages className="w-4 h-4" />
               {lang === 'ar' ? 'English' : 'العربية'}
             </button>
@@ -62,7 +62,7 @@ export function Navbar() {
           <button
             className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label={t.common.toggleMenu}
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -83,8 +83,8 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-              <button onClick={toggleTheme} className="btn-ghost w-full" aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />} {theme === 'dark' ? 'Light' : 'Dark'}
+              <button onClick={toggleTheme} className="btn-ghost w-full" aria-label={theme === 'dark' ? t.common.lightMode : t.common.darkMode}>
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />} {theme === 'dark' ? t.common.lightMode : t.common.darkMode}
               </button>
               <button onClick={toggleLang} className="btn-ghost w-full">
                 <Languages className="w-4 h-4" /> {lang === 'ar' ? 'English' : 'العربية'}

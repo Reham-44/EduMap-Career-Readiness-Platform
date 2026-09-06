@@ -5,6 +5,7 @@ import { Badge } from '@/components/Badge';
 import { ProgressBar } from '@/components/ProgressBar';
 import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLang } from '@/contexts/LanguageContext';
 
 const candidateData: Record<string, {
   name: string; university: string; career: string; score: number;
@@ -24,6 +25,7 @@ export function CandidateDetails() {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const { user, updateUser } = useAuth();
+  const { t } = useLang();
 
   const candidate = id ? candidateData[id] : null;
 
@@ -31,8 +33,8 @@ export function CandidateDetails() {
     return (
       <AppLayout role="company">
         <div className="card p-8 text-center max-w-md mx-auto mt-12">
-          <h2 className="text-lg font-semibold text-slate-800 mb-2">Candidate not found</h2>
-          <Link to="/company/dashboard" className="btn-primary mt-4">Back to Dashboard</Link>
+          <h2 className="text-lg font-semibold text-slate-800 mb-2">{t.company.candidate} {t.common.notSet}</h2>
+          <Link to="/company/dashboard" className="btn-primary mt-4">{t.company.backToDashboard}</Link>
         </div>
       </AppLayout>
     );
@@ -41,7 +43,7 @@ export function CandidateDetails() {
   const handleInvite = () => {
     if (!candidate || !user) return;
     if (user.companyInvitations?.[id || '']) {
-      showToast(`An invitation has already been sent to ${candidate.name}.`, 'info');
+      showToast(`${t.company.invitationSent} ${candidate.name}`, 'info');
       return;
     }
     updateUser({
@@ -50,13 +52,13 @@ export function CandidateDetails() {
         [id as string]: { candidateName: candidate.name, sentAt: new Date().toISOString() },
       },
     });
-    showToast(`Internship invitation sent to ${candidate.name}!`, 'success');
+    showToast(`${t.company.invitationSent} ${candidate.name}`, 'success');
   };
 
   return (
     <AppLayout role="company">
       <Link to="/company/candidates" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600 mb-4">
-        <ArrowLeft className="w-4 h-4" /> Back to Candidates
+        <ArrowLeft className="w-4 h-4" /> {t.company.candidates}
       </Link>
 
       <div className="card p-6 mb-6">
@@ -79,14 +81,14 @@ export function CandidateDetails() {
           </div>
           <button onClick={handleInvite} disabled={Boolean(user?.companyInvitations?.[id || ''])} className="btn-primary text-base px-6 py-3">
             <Send className="w-4 h-4" />
-            {user?.companyInvitations?.[id || ''] ? 'Invitation Sent' : 'Invite to Internship'}
+            {user?.companyInvitations?.[id || ''] ? t.company.invitationSent : t.company.inviteToInternship}
           </button>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6 mb-6">
         <div className="card p-6">
-          <h3 className="font-bold text-slate-900 mb-4">Skills</h3>
+          <h3 className="font-bold text-slate-900 mb-4">{t.company.skills}</h3>
           <div className="space-y-3">
             {candidate.skills.map((skill) => (
               <div key={skill}>
@@ -101,7 +103,7 @@ export function CandidateDetails() {
         </div>
 
         <div className="card p-6">
-          <h3 className="font-bold text-slate-900 mb-4">Mentor Feedback</h3>
+          <h3 className="font-bold text-slate-900 mb-4">{t.company.mentorFeedback}</h3>
           <div className="p-4 rounded-xl bg-slate-50">
             <p className="text-sm text-slate-600 italic leading-relaxed">"{candidate.mentorFeedback}"</p>
           </div>
@@ -111,7 +113,7 @@ export function CandidateDetails() {
       <div className="card p-6">
         <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
           <Award className="w-5 h-5 text-primary-600" />
-          Completed Challenges
+          {t.company.completedChallengesList}
         </h3>
         <div className="space-y-3">
           {candidate.challenges.map((ch, i) => (
@@ -122,7 +124,7 @@ export function CandidateDetails() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-bold text-slate-700">{ch.score}%</span>
-                <Badge variant={ch.score >= 90 ? 'success' : 'warning'}>{ch.score >= 90 ? 'Excellent' : 'Good'}</Badge>
+                <Badge variant={ch.score >= 90 ? 'success' : 'warning'}>{ch.score >= 90 ? t.company.excellent : t.company.good}</Badge>
               </div>
             </div>
           ))}
