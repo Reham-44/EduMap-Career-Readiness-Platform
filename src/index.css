@@ -12,6 +12,10 @@
   [dir="rtl"] {
     font-family: 'Cairo', 'Inter', system-ui, sans-serif;
   }
+  [dir="rtl"] .home-hero .hero-title {
+    line-height: 1.35;
+    letter-spacing: 0;
+  }
   * {
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;

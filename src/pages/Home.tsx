@@ -45,7 +45,7 @@ export function Home() {
                 <Sparkles className="w-4 h-4" />
                 {t.home.badge}
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
+              <h1 className="hero-title text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
                 {t.home.heroTitle} <span className="text-primary-600">{t.home.heroTitleHighlight}</span>
               </h1>
               <p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-xl">
